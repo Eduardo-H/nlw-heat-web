@@ -1,0 +1,38 @@
+.contentWrapper {
+  max-width: 1200px;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 0 30px;
+
+  display: grid;
+  grid-template-columns: 1fr 453px;
+  column-gap: 120px;
+  position: relative;
+  
+  @media (max-width: 970px) {
+    max-width: 100%;
+    height: auto;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 50px;
+  }
+}
+
+.contentSigned::before {
+  content: '';
+  height: 100vh;
+  width: 650px;
+  background: url('./assets/background.svg') no-repeat;
+  background-size: cover;
+  position: absolute;
+  right: -390px;
+  top: 0;
+
+  @media (max-width: 970px) {
+    display: none;
+  }
+}
