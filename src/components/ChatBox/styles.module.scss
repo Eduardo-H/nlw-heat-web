@@ -92,13 +92,13 @@
   flex-direction: column;
   gap: 6px;
 
-  overflow-y: scroll;
+  overflow-y: auto;
 
   &::-webkit-scrollbar {
     width: 4px;
   }
   &::-webkit-scrollbar-track {
-    background: #1B1B1F;
+    background: transparent;
   }
   &::-webkit-scrollbar-thumb {
     background: #8D8D99;
