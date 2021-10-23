@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import io from 'socket.io-client';
 
 import { api } from '../../services/api';
@@ -59,7 +60,13 @@ export function MessageList() {
       <ul className={styles.messageList}>
         {
           messages.map(message => (
-            <li key={message.id} className={styles.message}>
+            <motion.li
+              key={message.id}
+              initial={{ x: -70 }}
+              animate={{ x: 0 }}
+              transition={{ duration: 1 }}
+              className={styles.message}
+            >
               <p className={styles.messageContent}>{message.text}</p>
               <div className={styles.messageUser}>
                 <div className={styles.userImage}>
@@ -69,7 +76,7 @@ export function MessageList() {
                   {message.user.name ? message.user.name : message.user.login}
                 </span>
               </div>
-            </li>
+            </motion.li>
           ))
         }
       </ul>
