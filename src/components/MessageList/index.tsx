@@ -36,7 +36,7 @@ export function MessageList() {
           messagesQueue[0],
           prevState[0],
           prevState[1]
-        ].filter(Boolean));
+        ]);
 
         messagesQueue.shift();
       }
@@ -66,7 +66,7 @@ export function MessageList() {
                   <img src={message.user.avatar_url} alt={message.user.login} />
                 </div>
                 <span>
-                  { message.user.name ? message.user.name : message.user.login }
+                  {message.user.name ? message.user.name : message.user.login}
                 </span>
               </div>
             </li>
