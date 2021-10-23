@@ -8,15 +8,19 @@ import { MessageList } from './components/MessageList';
 import { SendMessageForm } from './components/SendMessageForm';
 
 import styles from './App.module.scss';
+import { MessageContext } from './contexts/message';
 
 
 export function App() {
   const { user } = useContext(AuthContext);
+  const { isChatBoxOpen } = useContext(MessageContext);
 
   return (
     <main className={`${styles.contentWrapper} ${!!user ? styles.contentSigned : ''}`}>
       <MessageList />
-      {!!user ? <ChatBox /> : <LoginBox />}
+      {!!user ?
+        isChatBoxOpen ? <ChatBox /> : <SendMessageForm />
+        : <LoginBox />}
     </main>
   );
 }

@@ -1,17 +1,29 @@
 import { motion } from 'framer-motion';
 import { useContext } from 'react';
 import { VscClose } from 'react-icons/vsc';
+import { AuthContext } from '../../contexts/auth';
 import { MessageContext } from '../../contexts/message';
 
 import styles from './styles.module.scss';
 
 export function ChatRequest() {
+  const { user } = useContext(AuthContext);
+
   const {
     userMessageBox,
-    closeMessageBox
+    closeMessageBox,
+    fetchPrivateChat
   } = useContext(MessageContext);
 
   const name = userMessageBox?.name ? userMessageBox.name?.split(' ')[0] : userMessageBox?.login;
+
+  function handleOpenChat() {
+    if (user && userMessageBox) {
+      fetchPrivateChat(user.id, userMessageBox?.id)
+    }
+
+    closeMessageBox();
+  }
 
   return (
     <motion.div
@@ -39,7 +51,7 @@ export function ChatRequest() {
         <button onClick={closeMessageBox} className={styles.declineButton}>
           Não
         </button>
-        <button className={styles.acceptButton}>
+        <button onClick={handleOpenChat} className={styles.acceptButton}>
           Sim
         </button>
       </div>

@@ -7,10 +7,15 @@ import { api } from '../../services/api';
 
 import styles from './styles.module.scss';
 import { Message } from '../Message';
+import { MessageContext } from '../../contexts/message';
 
 export function ChatBox() {
-  const { user } = useContext(AuthContext);
   const [message, setMessage] = useState('');
+
+  const { user } = useContext(AuthContext);
+  const { openChat, closeChatBox } = useContext(MessageContext);
+
+  const contact = openChat?.users[0].id === user?.id ? openChat?.users[1] : openChat?.users[0];
 
   async function handleSendMessage(event: FormEvent) {
     event.preventDefault();
@@ -19,8 +24,8 @@ export function ChatBox() {
       return;
     }
 
-    await api.post('/messages', {
-      chat_id: '',
+    await api.post('/chat/messages', {
+      chat_id: openChat?.id,
       message
     });
 
@@ -30,31 +35,28 @@ export function ChatBox() {
   return (
     <div className={styles.sendMessageFormWrapper}>
       <div className={styles.header}>
-        <button className={styles.backButton}>
+        <button onClick={closeChatBox} className={styles.backButton}>
           <VscArrowLeft />
         </button>
 
         <div className={styles.userImage}>
-          <img src={user?.avatar_url} alt={user?.login} />
+          <img src={contact?.avatar_url} alt={contact?.login} />
         </div>
         <p className={styles.userName}>
-          {user?.name ? user.name : user?.login}
+          {contact?.name ? contact?.name : contact?.login}
         </p>
       </div>
 
       <div className={styles.messages}>
-        <Message text="Fala mano" owner={true} />
-        <Message text="Beleza?" owner={true} />
-        <Message text="Salve" owner={false} />
-        <Message text="Tudo tranquilo, e você?" owner={false} />
-        <Message text="Fala mano" owner={true} />
-        <Message text="Beleza?" owner={true} />
-        <Message text="Salve" owner={false} />
-        <Message text="Tudo tranquilo, e você?" owner={false} />
-        <Message text="Fala mano" owner={true} />
-        <Message text="Beleza?" owner={true} />
-        <Message text="Salve" owner={false} />
-        <Message text="Tudo tranquilo, e você?" owner={false} />
+        {
+          openChat?.messages.map(message => (
+            <Message
+              key={message.id}
+              text={message.text}
+              owner={message.user_id === user?.id}
+            />
+          ))
+        }
       </div>
 
       <form onSubmit={handleSendMessage} className={styles.sendMessageForm}>
