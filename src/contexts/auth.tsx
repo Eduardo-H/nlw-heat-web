@@ -36,7 +36,8 @@ export function AuthProvider(props: AuthProvider) {
 
   async function signIn(githubCode: string) {
     const response = await api.post<AuthResponse>('/authenticate', {
-      code: githubCode
+      code: githubCode,
+      type: 'web'
     });
 
     const { token, user } = response.data;
@@ -50,7 +51,7 @@ export function AuthProvider(props: AuthProvider) {
 
   function signOut() {
     setUser(null);
-    localStorage.removeItem('@dowhile:token'); 
+    localStorage.removeItem('@dowhile:token');
   }
 
   useEffect(() => {
