@@ -1,0 +1,21 @@
+.messageWrapper {
+  width: fit-content;
+  max-width: 60%;
+  padding: 12px 14px;
+  font-size: 16px;
+  font-weight: bold;
+
+  @media (max-width: 970px) {
+    font-size: 14px;
+  }
+}
+
+.messageSent {
+  background: #29292E;
+  margin-left: auto;
+}
+
+.messageReceived {
+  background: #FF008E;
+  margin-right: auto;
+}

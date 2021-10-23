@@ -1,0 +1,153 @@
+.sendMessageFormWrapper {
+  background: #1B1B1F;
+  min-height: 577px;
+  max-height: 577px;
+  padding: 24px;
+  align-self: center;
+  gap: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  position: relative;
+
+  @media (max-width: 970px) {
+    padding: 24px 18px;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+
+  .backButton {
+    background: transparent;
+    border: 0;
+    color: #C4C4CC;
+    
+    cursor: pointer;
+  
+    transition: filter 0.2s;
+  
+    svg {
+      font-size: 26px;
+      margin-right: 20px;
+    }
+  
+    &:hover {
+      filter: brightness(0.9);
+    }
+  
+    @media (max-width: 970px) {
+      svg {
+        font-size: 26px;
+      }
+    }
+  }
+  
+  .userImage {
+    padding: 3px;
+    background: linear-gradient(100deg, #FF008E 0%, #FFCD1E 100%);
+    border-radius: 50%;
+    line-height: 0;
+    margin-right: 10px;
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid #121214;
+    }
+  }
+
+  .userName {
+    font-size: 18px;
+    line-height: 30px;
+  }
+
+  @media (max-width: 970px) {
+    .backButton svg {
+      font-size: 22px;
+      margin-right: 12px;
+    }
+
+    .userName {
+      font-size: 18px;
+    }
+
+    .userImage img {
+      width: 35px;
+      height: 35px;
+      border: 2px solid #121214;
+    }
+  }
+}
+
+.messages {
+  flex: 1;
+  max-height: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #1B1B1F;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #8D8D99;
+  }
+}
+
+.sendMessageForm {
+  display: flex;
+
+  input {
+    background: #202024;
+    flex: 1;
+    height: 50px;
+    border: 0;
+    padding: 10px 15px;
+    resize: none;
+    color: #E1E1E6;
+    font-size: 16px;
+    line-height: 24px;
+
+    &:focus {
+      outline: 0;
+    }
+
+    &::placeholder {
+      color: #8D8D99;
+    }
+  }
+
+  button {
+    cursor: pointer;
+    border: 0;    
+    background: #FF008E;
+    height: 50px;
+    padding: 4px 18px;
+
+    font-size: 18px;
+    color: #FFFFFF;
+
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+
+  @media (max-width: 970px) {
+    button {
+      font-size: 16px;
+    }
+  }
+}
