@@ -1,0 +1,89 @@
+.chatRequestWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  position: absolute;
+
+  top: 20px;
+
+  padding: 20px 30px;
+  background-color: #202024;
+
+  .user {
+    display: flex;
+    align-items: center;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    .userImage {
+      margin-right: 12px;
+      padding: 2px;
+      background: linear-gradient(100deg, #FF008E 0%, #FFCD1E 100%);
+      border-radius: 50%;
+      line-height: 0;
+
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 4px solid #121214;
+      }
+    }
+  }
+
+  .closeButton {
+    margin-left: auto;
+    background: transparent;
+    border: 0;
+    color: #FFFFFF;
+    cursor: pointer;
+
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+  }
+
+  .actionButtons {
+    display: flex;
+    align-self: flex-end;
+    gap: 8px;
+
+    .acceptButton {
+      background: #FF008E;
+    }
+
+    .declineButton {
+      background: transparent;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      padding: 0 18px;
+      height: 35px;
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-decoration: none;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      transition: filter 0.2s;
+
+      &:hover {
+        filter: brightness(0.9);
+      }
+    }
+  }
+
+  @media (max-width: 490px) {
+    top: 0;
+  }
+}

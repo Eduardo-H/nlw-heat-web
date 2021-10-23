@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import io from 'socket.io-client';
 
@@ -7,16 +7,21 @@ import { api } from '../../services/api';
 import logoImg from '../../assets/logo.svg';
 
 import styles from './styles.module.scss';
+import { ChatRequest } from '../ChatRequest';
+import { MessageContext } from '../../contexts/message';
+
+export type User = {
+  id?: string;
+  name: string | undefined;
+  login: string;
+  avatar_url: string;
+}
 
 type Message = {
   id: string;
   text: string;
   user_id: string;
-  user: {
-    name: string | undefined;
-    login: string;
-    avatar_url: string;
-  }
+  user: User
 }
 
 const messagesQueue: Message[] = [];
@@ -29,6 +34,23 @@ socket.on('new_message', (newMessage: Message) => {
 
 export function MessageList() {
   const [messages, setMessages] = useState<Message[]>([]);
+
+  const {
+    isMessageBoxOpen,
+    openMessageBox,
+    setUserMessage
+  } = useContext(MessageContext);
+
+  function handleImageClick(user_id: string, user: User) {
+    setUserMessage({
+      id: user_id,
+      name: user.name,
+      login: user.login,
+      avatar_url: user.avatar_url
+    });
+
+    openMessageBox();
+  }
 
   useEffect(() => {
     setInterval(() => {
@@ -68,8 +90,9 @@ export function MessageList() {
               className={styles.message}
             >
               <p className={styles.messageContent}>{message.text}</p>
+
               <div className={styles.messageUser}>
-                <div className={styles.userImage}>
+                <div onClick={() => handleImageClick(message.user_id, message.user)} className={styles.userImage}>
                   <img src={message.user.avatar_url} alt={message.user.login} />
                 </div>
                 <span>
@@ -80,6 +103,8 @@ export function MessageList() {
           ))
         }
       </ul>
+
+      {isMessageBoxOpen && <ChatRequest />}
     </div>
   );
 }
