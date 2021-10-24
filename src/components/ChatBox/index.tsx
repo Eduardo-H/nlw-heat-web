@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { VscArrowLeft } from 'react-icons/vsc';
 import { FiSend } from 'react-icons/fi';
 import { api } from '../../services/api';
@@ -20,8 +20,15 @@ export function ChatBox() {
   } = useContext(MessageContext);
 
   const [message, setMessage] = useState('');
+  const messagesRef = useRef<HTMLDivElement>(null);
 
   const contact = openChat?.users[0].id === user?.id ? openChat?.users[1] : openChat?.users[0];
+
+  function scrollDown() {
+    if (messagesRef.current) {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }
+  }
 
   async function handleSendMessage(event: FormEvent) {
     event.preventDefault();
@@ -43,7 +50,13 @@ export function ChatBox() {
 
     socket.on(`new_private_message_${openChat?.id}`, (newMessage: MessageProps) => {
       updatePrivateMessages(newMessage);
+
+      if (messagesRef.current) {
+        messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+      }
     });
+
+    scrollDown()
   }, []);
 
   return (
@@ -61,7 +74,7 @@ export function ChatBox() {
         </p>
       </div>
 
-      <div className={styles.messages}>
+      <div ref={messagesRef} className={styles.messages}>
         {
           privateMessages?.map(message => (
             <Message
