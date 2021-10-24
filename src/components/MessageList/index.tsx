@@ -8,8 +8,9 @@ import logoImg from '../../assets/logo.svg';
 
 import styles from './styles.module.scss';
 import { ChatRequest } from '../ChatRequest';
-import { Message, MessageContext } from '../../contexts/message';
+import { Chat, Message, MessageContext } from '../../contexts/message';
 import { AuthContext } from '../../contexts/auth';
+import { VscComment } from 'react-icons/vsc';
 
 export type User = {
   id: string;
@@ -28,13 +29,16 @@ socket.on('new_message', (newMessage: Message) => {
 
 export function MessageList() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [chats, setChats] = useState<Chat[]>();
+  const [isChatListOpen, setIsChatListOpen] = useState(false);
 
   const { user } = useContext(AuthContext);
   const {
     isMessageBoxOpen,
     openMessageBox,
     closeMessageBox,
-    setUserMessage
+    setUserMessage,
+    getChatById
   } = useContext(MessageContext);
 
   function handleImageClick(selectedUser: User) {
@@ -46,6 +50,18 @@ export function MessageList() {
       setUserMessage(selectedUser);
       openMessageBox();
     }
+  }
+
+  async function getChats() {
+    const reponse = await api.get<Chat[]>('/chats/all');
+
+    setChats(reponse.data);
+    setIsChatListOpen(!isChatListOpen);
+  }
+
+  function handleOpenChat(id: string) {
+    getChatById(id);
+    setIsChatListOpen(false);
   }
 
   useEffect(() => {
@@ -73,16 +89,57 @@ export function MessageList() {
 
   return (
     <div className={styles.messageListWrapper}>
-      <img src={logoImg} alt="DoWhile 2021" />
+      <div className={styles.header}>
+        <img src={logoImg} alt="DoWhile 2021" />
+
+        {
+          user && (
+            <div>
+              <button onClick={getChats}>
+                <VscComment />
+                Mensagens privadas
+              </button>
+
+              {
+                isChatListOpen && (
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.4 }}
+                    className={styles.chatList}
+                  >
+                    {chats?.map(chat => (
+                      <button key={chat.id} onClick={() => handleOpenChat(chat.id)}>
+                        <div className={styles.userImage}>
+                          <img src={chat.users[0].avatar_url} alt={chat.users[0].login} />
+                        </div>
+
+                        <div className={styles.chatInfo}>
+                          <p>
+                            {chat.users[0].name ? chat.users[0].name : chat.users[0].login}
+                          </p>
+                          <span>
+                            {chat.messages[0].text}
+                          </span>
+                        </div>
+                      </button>
+                    ))}
+                  </motion.div>
+                )
+              }
+            </div>
+          )
+        }
+      </div>
 
       <ul className={styles.messageList}>
         {
           messages.map(message => (
             <motion.li
               key={message.id}
-              initial={{ x: -70 }}
-              animate={{ x: 0 }}
-              transition={{ duration: 1 }}
+              initial={{ x: -70, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
               className={styles.message}
             >
               <p className={styles.messageContent}>{message.text}</p>
