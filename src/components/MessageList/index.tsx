@@ -108,22 +108,30 @@ export function MessageList() {
                     transition={{ duration: 0.4 }}
                     className={styles.chatList}
                   >
-                    {chats?.map(chat => (
-                      <button key={chat.id} onClick={() => handleOpenChat(chat.id)}>
-                        <div className={styles.userImage}>
-                          <img src={chat.users[0].avatar_url} alt={chat.users[0].login} />
-                        </div>
+                    {
+                      chats && chats.length > 0
+                        ? chats?.map(chat => (
+                          <button key={chat.id} onClick={() => handleOpenChat(chat.id)}>
+                            <div className={styles.userImage}>
+                              <img src={chat.users[0].avatar_url} alt={chat.users[0].login} />
+                            </div>
 
-                        <div className={styles.chatInfo}>
-                          <p>
-                            {chat.users[0].name ? chat.users[0].name : chat.users[0].login}
+                            <div className={styles.chatInfo}>
+                              <p>
+                                {chat.users[0].name ? chat.users[0].name : chat.users[0].login}
+                              </p>
+                              <span>
+                                {chat.messages[0].text}
+                              </span>
+                            </div>
+                          </button>
+                        ))
+                        : (
+                          <p className={styles.noChats}>
+                            Você não possui nenhuma conversa
                           </p>
-                          <span>
-                            {chat.messages[0].text}
-                          </span>
-                        </div>
-                      </button>
-                    ))}
+                        )
+                    }
                   </motion.div>
                 )
               }

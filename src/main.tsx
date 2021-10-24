@@ -25,6 +25,7 @@ ReactDOM.render(
           rtl={false}
           theme="colored"
           draggable
+          pauseOnFocusLoss={false}
         />
       </MessageProvider>
     </AuthProvider>
