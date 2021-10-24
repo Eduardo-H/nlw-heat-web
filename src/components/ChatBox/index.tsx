@@ -12,10 +12,14 @@ import styles from './styles.module.scss';
 
 export function ChatBox() {
   const { user } = useContext(AuthContext);
-  const { openChat, closeChatBox } = useContext(MessageContext);
+  const {
+    openChat,
+    privateMessages,
+    updatePrivateMessages,
+    closeChatBox
+  } = useContext(MessageContext);
 
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<MessageProps[]>(openChat ? openChat.messages : []);
 
   const contact = openChat?.users[0].id === user?.id ? openChat?.users[1] : openChat?.users[0];
 
@@ -38,10 +42,7 @@ export function ChatBox() {
     const socket = io('http://localhost:4000');
 
     socket.on(`new_private_message_${openChat?.id}`, (newMessage: MessageProps) => {
-      const updatedMessages = [...messages];
-      updatedMessages.push(newMessage);
-
-      setMessages(updatedMessages);
+      updatePrivateMessages(newMessage);
     });
   }, []);
 
@@ -62,7 +63,7 @@ export function ChatBox() {
 
       <div className={styles.messages}>
         {
-          messages.map(message => (
+          privateMessages?.map(message => (
             <Message
               key={message.id}
               text={message.text}
