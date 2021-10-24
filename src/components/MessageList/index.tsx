@@ -64,14 +64,22 @@ export function MessageList() {
     setIsChatListOpen(false);
   }
 
+  function updateMessages(prevState: Message[]) {
+    if (prevState.length > 2) {
+      return [
+        messagesQueue[0],
+        prevState[0],
+        prevState[1]
+      ];
+    } else {
+      return [messagesQueue[0], ...prevState];
+    }
+  }
+
   useEffect(() => {
     setInterval(() => {
       if (messagesQueue.length > 0) {
-        setMessages(prevState => [
-          messagesQueue[0],
-          prevState[0],
-          prevState[1]
-        ]);
+        setMessages(prevState => updateMessages(prevState));
 
         messagesQueue.shift();
       }
