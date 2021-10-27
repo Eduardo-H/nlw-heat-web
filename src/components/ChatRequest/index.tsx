@@ -27,9 +27,9 @@ export function ChatRequest() {
 
   return (
     <motion.div
-      initial={{ y: -200 }}
+      initial={{ y: -300 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.7 }}
+      transition={{ type: "spring", stiffness: 80 }}
       className={styles.chatRequestWrapper}
     >
       <div className={styles.user}>
