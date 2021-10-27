@@ -29,7 +29,7 @@ socket.on('new_message', (newMessage: Message) => {
 
 export function MessageList() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [chats, setChats] = useState<Chat[]>();
+  const [chats, setChats] = useState<Chat[]>([]);
   const [isChatListOpen, setIsChatListOpen] = useState(false);
 
   const { user } = useContext(AuthContext);
@@ -42,7 +42,7 @@ export function MessageList() {
   } = useContext(MessageContext);
 
   function handleImageClick(selectedUser: User) {
-    if (user?.id !== selectedUser.id) {
+    if (user && user?.id !== selectedUser.id) {
       if (isMessageBoxOpen) {
         closeMessageBox();
       }
@@ -117,7 +117,7 @@ export function MessageList() {
                     className={styles.chatList}
                   >
                     {
-                      chats && chats.length > 0
+                      chats.length > 0
                         ? chats?.map(chat => (
                           <button key={chat.id} onClick={() => handleOpenChat(chat.id)}>
                             <div className={styles.userImage}>
