@@ -42,10 +42,14 @@ export function SendMessageForm() {
         <strong className={styles.userName}>
           {user?.name ? user.name : user?.login}
         </strong>
-        <span className={styles.userGithub}>
+        <a
+          href={`https://github.com/${user?.login}`}
+          target="_blank"
+          className={styles.userGithub}
+        >
           <VscGithubInverted size="16" />
           {user?.login}
-        </span>
+        </a>
       </header>
 
       <form onSubmit={handleSendMessage} className={styles.sendMessageForm}>
