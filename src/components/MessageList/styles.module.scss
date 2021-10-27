@@ -33,7 +33,13 @@
     color: #FFFFFF;
     font-size: 18px;
 
-    > svg {
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+
+    svg {
       margin-right: 10px;
     }
   }
